@@ -5,5 +5,13 @@ Email notifier when your crypto balance changed.
 * Ethereum
 * Dogecoin
 * Litecoin
-## Future features
-* Website to enter your wallet and your email to get automatically balance update.
+## How to use?
+### Install modules
+```python
+pip install -r requirements.txt
+```
+You need to modify the config.
+### Run the script
+```python
+python CryptoBalance.py
+```
