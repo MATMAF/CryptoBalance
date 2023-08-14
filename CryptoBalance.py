@@ -21,7 +21,7 @@ def get_balance(crypto, address):
         balance_btc = f"{balance_satoshis / 10**8}"
         balance_usd = data["data"][address]["address"]["balance_usd"]
         return balance_btc, balance_usd
-    if crypto == "ETH":
+    elif crypto == "ETH":
         url = f"https://api.blockchair.com/ethereum/dashboards/address/{address}"
         response = requests.get(url)
         data = response.json()
@@ -29,14 +29,14 @@ def get_balance(crypto, address):
         balance_eth = f"{balance_wei / 10**18}"
         balance_usd = data["data"][address]["address"]["balance_usd"]
         return balance_eth, balance_usd
-    if crypto == "DOGE":
+    elif crypto == "DOGE":
         url = f"https://api.blockchair.com/dogecoin/dashboards/address/{address}"
         response = requests.get(url)
         data = response.json()
         balance_doge = data["data"][address]["address"]["balance"]
         balance_usd = data["data"][address]["address"]["balance_usd"]
         return balance_doge, balance_usd
-    if crypto == "LTC":
+    elif crypto == "LTC":
         url = f"https://api.blockchair.com/litecoin/dashboards/address/{address}"
         response = requests.get(url)
         data = response.json()
@@ -44,6 +44,9 @@ def get_balance(crypto, address):
         balance_ltc = f"{balance_litoshi / 10**8}"
         balance_usd = data["data"][address]["address"]["balance_usd"]
         return balance_ltc, balance_usd
+    else:
+        print("Your crypto isn't supported yet")
+        exit()
 
 config_crypto = config.CRYPTO
 config_address = config.ADDRESS
