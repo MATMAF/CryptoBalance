@@ -6,9 +6,6 @@ Email notifier when your crypto balance changed.
 * Dogecoin
 * Litecoin
 ## How to use ?
-### Hosted by myself
-Comming soon at: https://cryptobalance.dev
-### Self hosted
 Database
 ```docker
 docker compose up -d
