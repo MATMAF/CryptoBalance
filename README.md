@@ -1,5 +1,5 @@
 # CryptoBalance
-You can track your cryptocurrency balances and receive email when they change.
+Email notifier when your crypto balance changed.
 ## Crypto supported
 * Bitcoin
 * Ethereum
