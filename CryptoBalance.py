@@ -1,68 +1,53 @@
-import requests
-import config
-import time
+from flask import Flask, request, render_template, redirect, url_for
+from flask_sslify import SSLify
+import mysql.connector
 
-def ChangeBalanceConfig(balance):
-    with open('config.py', 'r') as file:
-        lines = file.readlines()
-    new_value = balance
-    for i, line in enumerate(lines):
-        if 'BALANCE' in line:
-            lines[i] = f'BALANCE = "{new_value}"\n'
-    with open('config.py', 'w') as file:
-        file.writelines(lines)
+mydb = mysql.connector.connect(
+    host="127.0.0.1",
+    user="root",
+    password="1234",
+    database="CryptoBalance"
+)
+mycursor = mydb.cursor()
 
-def get_balance(crypto, address):
-    if crypto == "BTC":
-        url = f"https://api.blockchair.com/bitcoin/dashboards/address/{address}"
-        response = requests.get(url)
-        data = response.json()
-        balance_satoshis = int(data["data"][address]["address"]["balance"])
-        balance_btc = f"{balance_satoshis / 10**8}"
-        balance_usd = data["data"][address]["address"]["balance_usd"]
-        return balance_btc, balance_usd
-    elif crypto == "ETH":
-        url = f"https://api.blockchair.com/ethereum/dashboards/address/{address}"
-        response = requests.get(url)
-        data = response.json()
-        balance_wei = int(data["data"][address]["address"]["balance"])
-        balance_eth = f"{balance_wei / 10**18}"
-        balance_usd = data["data"][address]["address"]["balance_usd"]
-        return balance_eth, balance_usd
-    elif crypto == "DOGE":
-        url = f"https://api.blockchair.com/dogecoin/dashboards/address/{address}"
-        response = requests.get(url)
-        data = response.json()
-        balance_doge = data["data"][address]["address"]["balance"]
-        balance_usd = data["data"][address]["address"]["balance_usd"]
-        return balance_doge, balance_usd
-    elif crypto == "LTC":
-        url = f"https://api.blockchair.com/litecoin/dashboards/address/{address}"
-        response = requests.get(url)
-        data = response.json()
-        balance_litoshi = int(data["data"][address]["address"]["balance"])
-        balance_ltc = f"{balance_litoshi / 10**8}"
-        balance_usd = data["data"][address]["address"]["balance_usd"]
-        return balance_ltc, balance_usd
-    else:
-        print("Your crypto isn't supported yet")
-        exit()
+def EnterSQL(crypto, address, email):
+    sql = "INSERT INTO CryptoBalance (crypto, address, email) VALUES (%s, %s, %s)"
+    val = (crypto, address, email)
+    mycursor.execute(sql, val)
+    mydb.commit()
 
-config_crypto = config.CRYPTO
-config_address = config.ADDRESS
-config_balance = config.BALANCE
+def DeleteSQL(address):
+    mycursor.execute(f"DELETE FROM CryptoBalance WHERE address = '{address}'")
+    mydb.commit()
 
-while True:
-    balance = get_balance(config_crypto, config_address)
+app = Flask(__name__)
+sslify = SSLify(app)
 
-    if balance[0] == config_balance:
-        time.sleep(150)
-    else:
-        sender_name = "CryptoBalance"
-        receiver_email = config.EMAIL
-        subject = f"Your {config_crypto} balance"
-        message = f"{config_crypto} balance of address {config_address}: {balance[0]} {config_crypto}\nEquivalent to: {balance[1]:.2f} USD\n\nPowered by @MATMAF\nhttps://www.mat.run"
-        SendMail = requests.get(f"https://mail.mat.run/api?name={sender_name}&receiver={receiver_email}&sub={subject}&message={message}")
-        ChangeBalanceConfig(balance[0])
-        config_balance = balance[0]
-        time.sleep(30)
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/tracker')
+def tracker():
+    return render_template('tracker.html')
+
+@app.route('/tracker/submit', methods=['POST'])
+def add():
+    crypto = request.form['crypto']
+    address = request.form['address']
+    email = request.form['email']
+    EnterSQL(crypto, address.lower(), email)
+    return redirect(url_for('index'))
+
+@app.route('/remove_tracker')
+def remove_tracker():
+    return render_template('remove_tracker.html')
+
+@app.route('/remove_tracker/submit', methods=['POST'])
+def remove():
+    address = request.form['address']
+    DeleteSQL(address.lower())
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    app.run()
