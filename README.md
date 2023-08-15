@@ -30,5 +30,6 @@ python backend.py
 * Python
 * Flask
 * Docker
+* MySQL
 * HTML
 * Tailwind CSS
