@@ -1,0 +1,4 @@
+Flask==2.3.2
+Flask_SSLify==0.1.5
+mysql-connector-python==8.1.0
+mysql_connector_repackaged==0.3.1

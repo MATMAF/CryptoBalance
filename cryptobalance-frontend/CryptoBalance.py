@@ -1,9 +1,12 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sslify import SSLify
 import mysql.connector
+import time
+
+time.sleep(60)
 
 mydb = mysql.connector.connect(
-    host="127.0.0.1",
+    host="db",
     user="root",
     password="1234",
     database="CryptoBalance"
@@ -50,4 +53,4 @@ def remove():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0')

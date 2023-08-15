@@ -5,5 +5,22 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: CryptoBalance
+
+  init:
+    image: mathieumafille/cryptobalance-init:latest
+
+  frontend:
+    image: mathieumafille/cryptobalance-frontend:latest
+    restart: always
     ports:
-      - 3306:3306
+      - 5000:5000
+
+  backend:
+    image: mathieumafille/cryptobalance-backend:latest
+    restart: always
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080

@@ -7,25 +7,12 @@ Email notifier when your crypto balance changed.
 * Litecoin
 ## How to use ?
 ### Hosted by myself
-Comming soon at: https://cryptobalance.dev
+**Comming soon at:** https://cryptobalance.dev
 ### Self hosted
-Database
 ```docker
 docker compose up -d
 ```
-Initialize database
-```python
-python init.py
-```
-Frontend
-```python
-python CryptoBalance.py
-```
-Backend
-```python
-python backend.py
-```
-#### Replace `app.run()` with `app.run(debug=True)` at the end of the `CryptoBalance.py` file.
+After 1 minute go to http://127.0.0.1:5000
 ## Languages and frameworks
 * Python
 * Flask

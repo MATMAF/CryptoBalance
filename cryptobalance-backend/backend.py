@@ -2,8 +2,10 @@ import mysql.connector
 import requests
 import time
 
+time.sleep(60)
+
 mydb = mysql.connector.connect(
-    host="127.0.0.1",
+    host="db",
     user="root",
     password="1234",
     database="CryptoBalance"
