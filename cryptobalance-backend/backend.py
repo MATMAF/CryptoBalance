@@ -69,7 +69,7 @@ while True:
             sender_name = "CryptoBalance"
             receiver_email = email
             subject = f"Your {crypto} balance"
-            message = f"{crypto} balance of address {address}: {current_balance[0]} {crypto}\nEquivalent to: {current_balance[1]:.2f} USD\n\nPowered by @MATMAF\nhttps://www.mat.run"
+            message = f"{crypto} balance of address {address}: {current_balance[0]} {crypto}\nEquivalent to: {current_balance[1]:.2f} USD\nhttps://www.cryptobalance.dev\n\nPowered by @MATMAF\nhttps://www.mat.run"
             SendMail = requests.get(f"https://mail.mat.run/api?name={sender_name}&receiver={receiver_email}&sub={subject}&message={message}")
             EditSQL(address, current_balance[0])
 
