@@ -25,5 +25,10 @@ Backend
 ```python
 python backend.py
 ```
-
 #### Replace `app.run()` with `app.run(debug=True)` at the end of the `CryptoBalance.py` file.
+## Languages and frameworks
+* Python
+* Flask
+* Docker
+* HTML
+* Tailwind CSS
