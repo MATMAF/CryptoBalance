@@ -7,7 +7,7 @@ Email notifier when your crypto balance changed.
 * Litecoin
 ## How to use ?
 ### Hosted by myself
-https://cryptobalance.dev
+https://www.cryptobalance.dev
 ### Self hosted
 ```docker
 docker compose up -d
